@@ -1,0 +1,69 @@
+import java.util.Scanner;
+public class Main {
+    public static void main(String[] args) {
+        int earnings = 0;    // доходы
+        int spendings = 0;   // расходы
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            System.out.println("Выберите операцию и введите её номер:");
+            System.out.println("1. Добавить новый доход");
+            System.out.println("2. Добавить новый расход");
+            System.out.println("3. Выбрать систему налогообложения");
+            String input = scanner.nextLine(); //ввод номера операции текстом
+            if ("end".equals(input)) {
+                break;
+            }
+            int text = Integer.parseInt(input); //перевод тектса в число в переменную text
+
+            switch (text) { //выбор кейса по введенной переменной text
+                case 1:
+                    System.out.println("Введите сумму дохода:");
+                    String moneyStr = scanner.nextLine(); //ввод суммы дохода
+                    int money = Integer.parseInt(moneyStr); //перевод текста в сумму дохода переменная money
+                    earnings += money; //суммируем доход и складываем сумму в переменную earnings
+                    break;
+                case 2:
+                    System.out.println("Введите сумму расхода:");
+                    String moneyStr2 = scanner.nextLine(); //ввод суммы расхода
+                    int money2 = Integer.parseInt(moneyStr2); //перевод текста в сумму расхода переменная money2
+                    spendings += money2; //суммируем расход и складываем сумму в переменную spendings
+                    break;
+                case 3:
+                    int tax15 = taxEarningsMinusSpendings(earnings, spendings);
+                    int tax6 = taxEarnings(earnings);
+                    int difference = tax15-tax6;
+                    int economy = Math.abs(difference); //если разница налогов будет отрицательной, то пользователь в сообщении про сэкономленные средства увидит положительное число
+                    if (difference >= 0) {
+                        System.out.println("Мы советуем вам УСН 6% от дохода");
+                        System.out.println("Ваш налог составит: " + tax6 + " рублей");
+                        System.out.println("Налог на другой системе составит: " + tax15 + " рублей");
+                        System.out.println("Экономия: " + economy + " рублей");
+                    } else {
+                        System.out.println("Мы советуем вам УСН 15% от разницы доходов и расходов");
+                        System.out.println("Ваш налог составит: " + tax15 + " рублей");
+                        System.out.println("Налог на другой системе составит: " + tax6 + " рублей");
+                        System.out.println("Экономия: " + economy + " рублей");
+                    }
+                    break;
+                default:
+                    System.out.println("Такой операции нет");
+            }
+        }
+        System.out.println("Программа завершена!");
+    }
+
+    public static int taxEarningsMinusSpendings(int earnings, int spendings) {
+        int tax15 = (earnings - spendings) * 15 / 100;
+        if (tax15 >= 0) {
+            return tax15;
+        } else {
+            // если расходы оказались больше, то налог посчитается отрицательным
+            return 0;
+        }
+    }
+
+    public static int taxEarnings(int earnings) {
+        int tax6 = earnings * 6 / 100;
+        return tax6; //тут нет проверки, тк доход - ноль или положительное число
+    }
+}
