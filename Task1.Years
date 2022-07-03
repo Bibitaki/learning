@@ -1,0 +1,35 @@
+import java.util.Scanner;
+public class Main {
+public static int check(int year) { 
+    int day = 0;
+    if (year % 400 == 0) {
+      day = 366;
+    } else if (year % 4 == 0 && year % 100 != 0) {
+      day = 366;
+    } else {
+      day = 365;
+    }
+    return day;
+  }
+  
+  public static void main(String[] args) {
+    Scanner scanner = new Scanner(System.in);
+    int sum = 0; //счетчик правильных ответов
+    while (true) {
+      System.out.println("Введите год в формате yyyy");
+      int myYear = scanner.nextInt();
+      System.out.println("Введите количество дней в году");
+      int myDay = scanner.nextInt(); 
+
+      if (myDay == check(myYear)) {
+        sum ++;
+      } else if (check(myYear) == 366) {
+        System.out.println("Неверно! В этом году 366 дней");
+      } else if (check(myYear) == 365) {
+        System.out.println("Неверно! В этом году 365 дней");
+      } else {
+        break;
+      }
+    } System.out.println("Ваш счет" + sum);
+  }
+}
