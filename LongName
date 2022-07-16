@@ -1,0 +1,40 @@
+import java.util.Scanner;
+
+import static java.lang.Character.*;
+
+public class Main {
+    public static void main(String[] args) {
+        String maxName = null;
+        while (true) {
+            System.out.println("Введите имя");
+            Scanner scanner = new Scanner(System.in);
+            String input = scanner.nextLine();
+            if ("end".equals(input)) {
+                System.out.println("Программа завершена");
+                break;
+            }
+            String newName = input;
+            char firstSymbol = newName.charAt(0);
+            boolean check = Character.isUpperCase(firstSymbol);
+            if (check == true) {
+                if (maxName == null) {
+                    System.out.println("Это первое введенное имя!");
+                    maxName = newName;
+                } else {
+                    int maxLenght = maxName.length();
+                    int newLenght = newName.length();
+                    if (maxLenght >= newLenght) {
+                        System.out.println("Самое длинное имя " + maxName);
+                        System.out.println("Вам не хватило " + (maxLenght - newLenght) + " букв");
+                    } else {
+                        System.out.println("Вы ввели самое длинное имя!");
+                        maxName = newName;
+                    }
+                }
+            } else {
+                System.out.println("Имена нужно вводить с большой буквы");
+                continue;
+            }
+        }
+    }
+}
